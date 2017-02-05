@@ -1,0 +1,22 @@
+body{
+	background-color:white !important;}
+.main-fluid{
+	width:80%;}
+button{
+	-webkit-transition:all 1s;
+	transition:1s;}
+.name-fluid{
+	height: 150px;
+    width: 100%;
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    color: white;
+	font-weight:lighter;
+    opacity: 0.95;}
+	h2{
+		color: #f3f3f3;
+    font-size: 30px;
+    font-weight: 550;
+    padding-top: 85px;}
+	.tool{
+		padding:50px;}
+	

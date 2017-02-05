@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Demo</title>
+        
+        <!------ css Files --------->
+        <link rel="stylesheet" href="css/bootstrap.css"/>
+        <link rel="stylesheet" href="css/material-kit.css"/>
+        <link rel='stylesheet' href='font-awesome/css/font-awesome.css'/>
+        <link rel="stylesheet" href="css/angular-ui-tree.css"/>
+        <link rel="stylesheet" href="css/animate.css"/>
+       
+        <link rel="stylesheet" href="css/style.css"/>
+         <!------------ jQuery required by bootstrap------>
+    <script src="scripts/jquery-3.1.0.min.js"></script>
+    <!-------------------------------------->
+                <!--- angular core scripts--------->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        
+       
+
+        
+    </head>
+    <body ng-app="data-app" ng-controller="myCntrl" >
+    	<div class="container-fluid main-fluid">
+            <div class="container name-fluid">
+            
+                <h1 class="text-center">Dando</h1>
+            </div>
+        
+        
+        <div class="container tool">
+        	<div class="row">
+            	<div class="col-lg-6"><button class="btn btn-warning" ng-click="new_json()"><i class=" fa fa-plus"></i> Create New JSON</button></div>
+                <div class="col-lg-6" id="down"><a class="btn" ng-click="save()" ng-class="{'btn-success':saved, 'btn-danger':!saved}"  ng-show="newjson" ng-href="{{url}}"  download='gd_json.js'> Save <i class="fa fa-download"></i></a></div>
+            </div>
+        	
+        </div> 
+        <div class="row">
+        <!-------------------- tree---------------------->
+        <div class="col-lg-6">
+        
+        	<button class="btn btn-info btn-sm" ng-click="newLevel()" ng-show="newjson"><i class="fa fa-plus"></i> Create New Level</button>
+            
+        
+        
+        <br/><br/>
+        <div ui-tree data-drag-enabled="false" >
+  <ol ui-tree-nodes="" ng-model="list">
+    <li ng-repeat="item in list" ui-tree-node>
+      <div ui-tree-handle>
+       <div class="panel panel-info animated fadeInLeft">
+  			<div class="panel-heading">
+   				 <strong>{{item.title}}</strong>
+                 
+                  <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span
+                        class="fa fa-remove"></span></a>
+                    <a class="pull-right btn btn-warning btn-xs" data-nodrag ng-click="newSubLevel(this)" style="margin-right: 8px;"><span
+                        class="fa fa-plus"></span></a>
+                   <a class="btn btn-success btn-xs pull-right" ng-if="item.nodes && item.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span
+                    class="fa"
+                    ng-class="{
+                      'fa-chevron-right': collapsed,
+                      'fa-chevron-down': !collapsed
+                    }"></span></a>
+ 			 </div>
+             
+  			<div class="panel-body">
+            	<div class="row"> 
+                    <ol ui-tree-nodes="" ng-model="item.para">
+                        <li ng-repeat="param in item.para">
+                          <div class="col-sm-6 " >
+                          
+                          <div class="form-group label-floating">
+                          <form  class="myform">
+                                <label class="control-label">{{param.title}}</label>
+                                <input type="text" class="form-control" name="depthOnePara" data-nodrag required ng-model="param.Value">
+                            
+                            </div>
+                          </div>  
+                        </li>
+                    </ol>
+                </div>
+  			</div>
+		</div>        
+      </div><!----- tree handle--->
+      <ol ui-tree-nodes="" ng-model="item.nodes">
+        <li ng-repeat="subItem in item.nodes" ui-tree-node>
+          <div ui-tree-handle>
+            <div class="panel panel-success animated slideInDown">
+  			<div class="panel-heading">
+   				 <strong>{{subItem.title}}</strong>
+                  <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><span
+                        class="fa fa-remove"></span></a>
+ 			 </div>
+             
+  			<div class="panel-body">
+            	<div class="row"> 
+                    <ol ui-tree-nodes="" ng-model="subItem.para">
+                        <li ng-repeat="params in subItem.para">
+                          <div class="col-sm-6 ">
+                          
+                         <div class="form-group label-floating">
+                         	
+                                <label class="control-label">{{params.title}}</label>
+                                <input type="text" class="form-control" name="depthTwoPara" required data-nodrag placeholder="{{params.Value}}" ng-model="params.Value" value="{{params.Value}}">
+                           </form>
+                            </div>
+                          </div>  
+                        </li>
+                    </ol>
+                </div>
+  			</div><!----------------/panel body---------->
+		</div> <!-------------- /pannel -------------> 
+          </div>
+        </li>
+      </ol>
+    </li>
+  </ol>
+    </div><!------- /UI tree---------------------------->
+    
+    </div>
+
+<!----------  JSON output ------->
+	<div class="col-lg-6 " ng-show="newjson">
+    
+    <div class="info">
+      {{info}}
+    </div>
+    <pre class="code">{{ list | json }}</pre>
+    </div>
+ <!------------ /JSon output ---->   
+</div><!------- /row------->
+
+
+</div><!----/ main-container--->
+        
+    </body>
+    
+    
+    <!-- Scripts------>
+   
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/material.min.js"></script>
+    <script src="scripts/material-kit.js"></script>
+    <script src="scripts/angular-ui-tree.js"></script>
+    
+    <script src="scripts/dando-main.js"></script>
+    
+    <script type="text/javascript">
+    /*-------------------javascript code to download the file ------------
+	 var data = {a: 5, b : " dsds"}
+	
+	var json = JSON.stringify(data);
+	var blob = new Blob([json], {type: "application/json"});
+	var url  = URL.createObjectURL(blob);
+	
+	var a = document.createElement('a');
+	a.download    = "backup.json";
+	a.href        = url;
+	a.textContent = "Download backup.json";
+	
+	document.getElementById('down').appendChild(a);*/
+    </script>
+    
+</html>
