@@ -1,4 +1,4 @@
-# dando
+# UI- tree
 Two level Json maker using Angular UI-Tree.
 This tool is an easy JSON file creator which lets you create Json file easily without any mistakes.
 
